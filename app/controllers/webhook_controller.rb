@@ -25,8 +25,8 @@ class WebhookController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          replyText = ""
-          if replyText == "天気" then
+          replyText = "ちょっと何言ってるか分からないなー"
+          if event.message['text'] == "天気" then
             replyText = FetchWeather.get_weather_info
           end
 
