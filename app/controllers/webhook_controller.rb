@@ -1,4 +1,5 @@
 require 'line/bot'
+require './app/utils/fetch_weather.rb'
 
 class WebhookController < ApplicationController
   protect_from_forgery except: [:callback] # CSRF対策無効化
@@ -24,9 +25,14 @@ class WebhookController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
+          replyText = ""
+          if replyText == "天気" then
+            replyText = FetchWeather.get_weather_info
+          end
+
           message = {
             type: 'text',
-            text: event.message['text']
+            text: replyText
           }
           client.reply_message(event['replyToken'], message)
         when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
