@@ -25,8 +25,10 @@ class WebhookController < ApplicationController
         case event.type
         when Line::Bot::Event::MessageType::Text
           reply_text =
-          if event.message['text'] == "天気"
-              FetchWeather.get_weather_message
+          if event.message['text'] == "自宅の天気"
+              FetchWeather.get_weather_message(zip_code: "251-0875")
+          elsif event.message['text'] == "大学の天気"
+              FetchWeather.get_weather_message(zip_code: "194-0013")
           else
               "ちょっと何言ってるか分からないなー"
           end

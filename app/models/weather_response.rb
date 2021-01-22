@@ -8,39 +8,48 @@ class WeatherResponse
   end
 
   def message
-    feels_like = main["feels_like"]
-    weather_name = weather["main"]
-    text = "\n#{get_time_text(dt)}・#{get_temperature_text(feels_like)}・#{get_weather_text(weather_name)}"
+    text = "#{get_time_text(dt)}：#{get_temperature_text(feels_like)}・#{get_humidity_text(humidity)}・#{get_weather_text(weather_name)}"
   end
 
   private
 
   def dt
-    res["dt"]
+    @dt ||= res["dt"]
   end
 
   def main
-    res["main"]
+    @main ||= res["main"]
   end
 
   def weather
-    res["weather"][0]
+    @weather ||= res["weather"][0]
+  end
+
+  def feels_like
+    main["feels_like"]
+  end
+
+  def humidity
+    main["humidity"]
+  end
+
+  def weather_name
+    weather["main"]
   end
 
   def get_time_text(dt)
     jpdt_from = dt
     datetime_from = Time.at(jpdt_from)
 
-    # APIの仕様として3時間おきの天気を表示しているため、
-    # 開始時刻を表すdtに3を足している
-    jpdt_to = jpdt_from + 3 * 60 * 60
-    datetime_to = Time.at(jpdt_to)
-
-    "#{datetime_from.strftime("%H時")}-#{datetime_to.strftime("%H時")}"
+    "#{datetime_from.strftime("%H時")}"
   end
 
   def get_temperature_text(feels_like)
     "#{format("%.2f", feels_like - ABSOLUTE_TEMPERATURE)}℃"
+  end
+
+  def get_humidity_text(humidity)
+    "#{format("%02d", humidity)}％"
   end
 
   def get_weather_text(weather_name)
