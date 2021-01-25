@@ -9,11 +9,7 @@ class FetchWeather
 
     <<~MESSAGE.chomp
       #{
-        if zip_code == "251-0875"
-          "自宅の天気："
-        else
-          "大学の天気："
-        end
+        zip_code == "251-0875" ? "自宅の天気：" : "大学の天気："
       }
       #{description}
     MESSAGE
