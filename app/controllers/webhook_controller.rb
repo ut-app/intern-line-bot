@@ -53,7 +53,7 @@ class WebhookController < ApplicationController
       when Line::Bot::Event::Unfollow
         user_id = event['source']['userId']  
         user = User.find_by!(user_id: user_id)
-        user.destroy! if user.present?
+        user&.destroy! if user.present?
       end
     }
     head :ok
