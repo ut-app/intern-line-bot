@@ -45,6 +45,15 @@ class WebhookController < ApplicationController
           tf = Tempfile.open("content")
           tf.write(response.body)
         end
+      
+      when Line::Bot::Event::Follow
+        userId = event['source']['userId'] 
+        User.find_or_create_by(user_id: userId)
+      
+      when Line::Bot::Event::Unfollow
+        userId = event['source']['userId']  
+        user = User.find_by(user_id: userId)
+        user.destroy if user.present?
       end
     }
     head :ok
