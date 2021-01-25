@@ -8,9 +8,7 @@ class FetchWeather
     description = get_weather_description(zip_code: zip_code)
 
     <<~MESSAGE.chomp
-      #{
-        zip_code == "251-0875" ? "自宅の天気：" : "大学の天気："
-      }
+      #{zip_code == "251-0875" ? "自宅の天気：\n" : "大学の天気：\n"}
       #{description}
     MESSAGE
   end
@@ -22,13 +20,8 @@ class FetchWeather
     }.to_param
 
     hash_object = JSON.parse(open(uri).read)
-    list = hash_object["list"]
-    weather_description = ""
+    list = hash_object["list"].slice(0..5)
 
-    for index in 0..5
-      weather_description += "\n#{WeatherResponse.new(list[index]).message}"
-    end
-
-    weather_description
+    weather_description = list.map { |res| WeatherResponse.new(res).message }.join("\n")
   end
 end

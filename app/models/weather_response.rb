@@ -8,7 +8,7 @@ class WeatherResponse
   end
 
   def message
-    text = "#{get_time_text(dt)}：#{get_temperature_text(feels_like)}・#{get_humidity_text(humidity)}・#{get_weather_text(weather_name)}"
+    "#{get_time_text(dt)}：#{get_temperature_text(feels_like)}・#{get_humidity_text(humidity)}・#{get_weather_text(weather_name)}"
   end
 
   private
@@ -40,8 +40,7 @@ class WeatherResponse
   def get_time_text(dt)
     jpdt_from = dt
     datetime_from = Time.at(jpdt_from)
-
-    "#{datetime_from.strftime("%H時")}"
+    datetime_from.strftime("%H時")
   end
 
   def get_temperature_text(feels_like)
