@@ -29,7 +29,7 @@ class WebhookController < ApplicationController
               FetchWeather.get_weather_message(zip_code: "251-0875")
           elsif event.message['text'] == "大学の天気"
               FetchWeather.get_weather_message(zip_code: "194-0013")
-          elsif event.message['text'] == "ゴミ収集日"
+          elsif event.message['text'] == "ゴミ収集日程"
               TrashDay.get_trash_message()
           else
               "ちょっと何言ってるか分からないなー"

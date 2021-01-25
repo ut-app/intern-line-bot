@@ -14,20 +14,24 @@ class TrashDay
   end
 
   def self.get_trash_of_today
-    today = Date.today
+    today = Time.zone.today
     case today.wday
     when 1, 4
       "可燃ごみ、ビン"
     when 2
       diff = today - BASE_DAY_RECYCLABLE_WASTE
-      diff % 14 == 0 ? "資源" : "不燃ごみ、プラスチック、本、雑がみ"
+      isEveryOtherWeek(diff) ? "資源" : "不燃ごみ、プラスチック、本、雑がみ"
     when 3
       "プラスチック、油、特定品目"
     when 5
       diff = today - BASE_DAY_PLASTIC_BOTTLE
-      diff % 14 == 0 ? "ペットボトル" : "カン、なべ類"
+      isEveryOtherWeek(diff) ? "ペットボトル" : "カン、なべ類"
     else
       "今日はゴミの回収はありません。"
     end
+  end
+
+  def isEveryOtherWeek(diff)
+    diff % 14 == 0
   end
 end
