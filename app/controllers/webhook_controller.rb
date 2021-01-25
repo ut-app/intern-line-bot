@@ -47,13 +47,13 @@ class WebhookController < ApplicationController
         end
       
       when Line::Bot::Event::Follow
-        userId = event['source']['userId'] 
-        User.find_or_create_by(user_id: userId)
+        user_id = event['source']['userId'] 
+        User.find_or_create_by!(user_id: user_id)
       
       when Line::Bot::Event::Unfollow
-        userId = event['source']['userId']  
-        user = User.find_by(user_id: userId)
-        user.destroy if user.present?
+        user_id = event['source']['userId']  
+        user = User.find_by!(user_id: user_id)
+        user.destroy! if user.present?
       end
     }
     head :ok
