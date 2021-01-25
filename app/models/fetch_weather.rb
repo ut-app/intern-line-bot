@@ -4,16 +4,12 @@ class FetchWeather
   API_KEY = ENV['OPEN_WEATHER_API_KEY']
   BASE_URI = "https://api.openweathermap.org/data/2.5/forecast"
   
-  def self.get_weather_message
-    description_home = get_weather_description(zip_code: "251-0875")
-    description_univ = get_weather_description(zip_code: "194-0013")
+  def self.get_weather_message(zip_code:)
+    description = get_weather_description(zip_code: zip_code)
 
-    <<~MESSAGE
-      現在地の天気：
-      #{description_home}
-
-      大学付近の天気：
-      #{description_univ}
+    <<~MESSAGE.chomp
+      #{zip_code == "251-0875" ? "自宅の天気：\n" : "大学の天気：\n"}
+      #{description}
     MESSAGE
   end
 
@@ -24,13 +20,8 @@ class FetchWeather
     }.to_param
 
     hash_object = JSON.parse(open(uri).read)
-    list = hash_object["list"]
-    weather_description = ""
+    list = hash_object["list"].slice(0..5)
 
-    for index in 0..5
-      weather_description += WeatherResponse.new(list[index]).message
-    end
-
-    weather_description
+    weather_description = list.map { |res| WeatherResponse.new(res).message }.join("\n")
   end
 end
