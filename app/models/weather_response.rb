@@ -38,8 +38,8 @@ class WeatherResponse
   end
 
   def get_time_text(dt)
-    jpdt_from = dt
-    datetime_from = Time.zone.at(jpdt_from)
+    jpdt_from = dt + 9 * 60 * 60
+    datetime_from = Time.at(jpdt_from)
     datetime_from.strftime("%H時")
   end
 
