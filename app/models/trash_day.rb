@@ -31,7 +31,7 @@ class TrashDay
     end
   end
 
-  def isEveryOtherWeek(diff)
+  def self.isEveryOtherWeek(diff)
     diff % 14 == 0
   end
 end

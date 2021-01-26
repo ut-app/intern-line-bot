@@ -83,6 +83,7 @@ test:
 #
 production:
   <<: *default
-  database: ruby-getting-started_production
-  username: ruby-getting-started
-  password: <%= ENV['RUBY-GETTING-STARTED_DATABASE_PASSWORD'] %>
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USER_NAME'] %>
+  password: <%= ENV['DATABASE_USER_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
